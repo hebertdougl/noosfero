@@ -31,7 +31,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
 
   def content_remove_upload(content)
     if content.kind_of?(WorkAssignmentPlugin::WorkAssignment)
-      !content.profile.members.include?(context.send(:user))
+      !content.profile.members.include?(context.send(:user)) || content.expired?
     end
   end
 

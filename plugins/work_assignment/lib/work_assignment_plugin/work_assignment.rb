@@ -7,6 +7,7 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   attr_accessible :publish_submissions
   attr_accessible :default_email
   attr_accessible :allow_visibility_edition
+  attr_accessible :begining, :ending
   
   def self.icon_name(article = nil)
     'work-assignment'
@@ -58,5 +59,10 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   def cache_key_with_person(params = {}, user = nil, language = 'en')
     cache_key_without_person + (user && profile.members.include?(user) ? "-#{user.identifier}" : '')
   end
+
+  def expired?
+    !(begining..ending).cover?(Time.now)
+  end
+
   alias_method_chain :cache_key, :person  
 end
