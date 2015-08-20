@@ -5,14 +5,7 @@
   <hr/>
 <% end %>
 
-<div id='public-profile-search'>
-  <% unless @page.expired? %>
-    <h4> Remaining time for sending files: </h4>
-    <%= time_ago_in_words(@page.ending, include_seconds: true) %>
-  <% else %>
-    <h4> The time limit for sending files expired!</h4>
-  <% end %>
-</div>
+<%= display_time_ago(@page) %>
 
 <%= display_submissions(@page, user) %>
 

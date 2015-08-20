@@ -90,4 +90,20 @@ module WorkAssignmentPlugin::Helper
       :tokenized_children => @tokenized_children, :back_to => @back_to}, :method => :post
     end
   end
+
+  def display_time_ago(work_assignment)
+    time_ago = time_ago_in_words(work_assignment.ending, include_seconds: true)
+    unless work_assignment.expired?
+      content_tag('div',
+        content_tag('span', _('Remaining time for sending files: '), :id => 'left-block') +
+        content_tag('span', time_ago, :id => 'right-block'),
+        id: 'time-ago'
+      )
+    else
+      content_tag('div',
+        content_tag('span', _('The time limit for sending files expired!')),
+        id: 'time-ago'
+      )
+    end
+  end
 end

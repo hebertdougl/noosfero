@@ -66,11 +66,23 @@ class WorkAssignmentPlugin < Noosfero::Plugin
         end
       end
     end
-
-    { :type => 'after_filter',
+    validate_block = proc do
+        @article = Article.find_by_id(params[:parent_id])
+        if @article.expired? && @article
+          render_access_denied(_("The time limit for uploading work over."), _("Oops ... you cannot go ahead here"))
+          session[:notice] = _('The timeout expired!')
+        end
+    end
+    [
+      { :type => 'after_filter',
       :method_name => 'send_email_after_upload_file',
       :options => {:only => 'upload_files'},
-      :block => block }
+      :block => block },
+      { :type => 'before_filter',
+      :method_name => 'validate_upload_files',
+      :options => {:only => 'upload_files'},
+      :block => validate_block }
+    ]
   end
 
   def upload_files_extra_fields(article)
