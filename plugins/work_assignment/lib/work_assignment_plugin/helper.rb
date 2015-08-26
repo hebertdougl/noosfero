@@ -101,7 +101,8 @@ module WorkAssignmentPlugin::Helper
       )
     else
       content_tag('div',
-        content_tag('span', _('The time limit for sending files expired!')),
+        content_tag('span', work_assignment.ignore_time ?  _('The time limit for sending files expired, but can still be done. Delay time: ') : _('The time limit for sending files expired!'), :id => 'left-block') +
+        content_tag('span', time_ago, :id => 'right-block'),
         id: 'time-ago'
       )
     end

@@ -31,7 +31,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
 
   def content_remove_upload(content)
     if content.kind_of?(WorkAssignmentPlugin::WorkAssignment)
-      !content.profile.members.include?(context.send(:user)) || content.expired?
+      !content.profile.members.include?(context.send(:user)) || (content.expired? && !content.ignore_time)
     end
   end
 
@@ -68,7 +68,7 @@ class WorkAssignmentPlugin < Noosfero::Plugin
     end
     validate_block = proc do
         @article = Article.find_by_id(params[:parent_id])
-        if @article.expired? && @article
+        if @article.expired? && !@article.ignore_time && @article
           render_access_denied(_("The time limit for uploading work over."), _("Oops ... you cannot go ahead here"))
           session[:notice] = _('The timeout expired!')
         end
