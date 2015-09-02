@@ -33,7 +33,7 @@ module WorkAssignmentPlugin::Helper
     content_tag('tr',
       content_tag('td', link_to_submission(submission, user)) +
       content_tag('td', time_format(submission.created_at))+
-      content_tag('td', modal_button('new', _(''), :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission)) +
+      content_tag('td', display_assign_grade_button(submission)) +
       content_tag('td', submission.grade_version) +
       content_tag('td',
         if submission.parent.parent.allow_post_content?(user)
@@ -67,6 +67,10 @@ module WorkAssignmentPlugin::Helper
     hour = (time.hour == 0 && minutes.blank?) ? '' : ' %H'
     h = hour.blank? ? '' : 'h'
     time.strftime("%Y-%m-%d#{hour+minutes+h}")
+  end
+
+  def display_assign_grade_button(submission)
+    modal_button('new', _(''), :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission)
   end
 
   def display_delete_button(article)
