@@ -1,0 +1,30 @@
+<h1>Assign grade</h1>
+
+<table> 
+  <tr>
+    <th><%= _('Author name: ') %></th>
+    <th><%= @submission.setting[:author_name] %></th>
+  </tr>
+
+  <tr>
+    <td><%= _('Nome arquivo') %></td>
+    <td><%=  @submission.name %></td>
+  </tr>
+
+  <tr>
+    <td><%= _('Update at') %></td>
+    <td><%=  @submission.updated_at %></td>
+  </tr>
+
+  <tr>
+    <td><%= _('Current Grade') %></td>
+    <td><%=  @submission.valuation_date ? @submission.grade : '-' %></td>
+  </tr>
+
+</table>
+
+<%= hidden_field_tag('submission_id', params[:submission_id]) %>
+
+<div class="button-bar">
+  <%= button('new', _('Atribuir nota'), {:controller => 'work_assignment_plugin_myprofile', :action => 'atribuir_nota'}) %>
+</div>
