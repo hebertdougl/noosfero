@@ -28,6 +28,12 @@ before_filter :protect_if, :only => [:edit_visibility]
 
   def assign_grade
     @submission = UploadedFile.find params[:submission]
+    if request.post? && !params[:upload_file][:grade_version].empty?
+      @submission.grade_version = params[:upload_file][:grade_version]
+      @submission.final_grade = params[:upload_file][:final_grade]
+      @submission.valuation_date = Time.now
+      @submission.save!
+    end
   end
 
   protected
