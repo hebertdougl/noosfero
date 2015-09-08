@@ -9,12 +9,12 @@
 
     <tr>
       <td><%= _('Nome arquivo') %></td>
-      <td><%=  @submission.name %></td>
+      <td><%= link_to(@submission.name, @submission.url) %></td>
     </tr>
 
     <tr>
-      <td><%= _('Update at') %></td>
-      <td><%=  @submission.updated_at %></td>
+      <td><%= _('Upload at') %></td>
+      <td><%=  @submission.created_at %></td>
     </tr>
 
     <tr>
@@ -29,13 +29,13 @@
   </tbody>
 </table>
 
-<%= labelled_form_for :upload_file do |f| %>
+<%= labelled_form_for :uploaded_file, :url => {:action => 'assign_grade'} do |f| %>
 
   <%= hidden_field_tag('submission', @submission.id) %>
 
-  <%= labelled_form_field _('Grade'), f.text_field(:grade_version) %>
+  <%= labelled_form_field _('Grade'), text_field_tag(:grade_version, @submission.grade_version)%>
 
-  <%= labelled_check_box(_('Final Grade'), 'upload_file[final_grade]', true) %>
+  <%= labelled_form_field _('Final Grade'), (check_box_tag :final_grade, @submission.final_grade, @submission.final_grade) %>
 
   <% button_bar do %>
     <%= submit_button :assign_grade, _('Assign Grade') %>
