@@ -22,7 +22,7 @@ module WorkAssignmentPlugin::Helper
       content_tag('td', link_to_last_submission(author_folder, user)) +
       content_tag('td', time_format(author_folder.children.last.created_at)) +
       content_tag('td', author_folder.children.count, :style => 'text-align: center') +
-      content_tag('td', author_folder.grade, :style => 'text-align: center') +
+      content_tag('td', author_folder.display_final_grade(author_folder), :style => 'text-align: center') +
       content_tag('td', content_tag('button', _('View all versions'), :class => 'view-author-versions', 'data-folder-id' => author_folder.id)) +
       content_tag('td', display_privacy_button(author_folder, user))
     ).html_safe +
@@ -33,11 +33,11 @@ module WorkAssignmentPlugin::Helper
     content_tag('tr',
       content_tag('td', link_to_submission(submission, user)) +
       content_tag('td', time_format(submission.created_at))+
-      content_tag('td', display_assign_grade_button(submission)) +
-      content_tag('td', submission.grade_version) +
+      content_tag('td', '') +
+      content_tag('td', display_submission_grade(submission), :style => 'text-align: center') +
       content_tag('td',
         if submission.parent.parent.allow_post_content?(user)
-          display_delete_button(submission)
+          display_delete_button(submission) + display_assign_grade_button(submission)
         end
       ),
       :class => "submission-from-#{submission.parent.id}",
@@ -69,8 +69,12 @@ module WorkAssignmentPlugin::Helper
     time.strftime("%Y-%m-%d#{hour+minutes+h}")
   end
 
+  def display_submission_grade(submission)
+    submission.valuation_date ? submission.grade_version : ""
+  end
+
   def display_assign_grade_button(submission)
-    modal_button('new', _(''), :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission)
+    modal_icon_button :edit, _('Assign'), { :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission, :uploaded_file => submission}
   end
 
   def display_delete_button(article)
