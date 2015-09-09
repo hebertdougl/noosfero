@@ -3,11 +3,19 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :publish_submissions, :type => :boolean, :default => false
   settings_items :default_email, :type => :string, :default => ""
   settings_items :allow_visibility_edition, :type => :boolean, :default => false
+  settings_items :publish_grades, :type => :boolean, :default => false
+  settings_items :work_assignment_activate_evaluation, :type => :boolean, :default => false
+  settings_items :work_assignment_final_grade_options, :type => :string
 
   attr_accessible :publish_submissions
   attr_accessible :default_email
   attr_accessible :allow_visibility_edition
-  
+  attr_accessible :publish_grades
+  attr_accessible :work_assignment_activate_evaluation
+  attr_accessible :work_assignment_final_grade_options
+
+  WORK_ASSIGNMENT_FINAL_GRADE_OPTIONS = ["Highest Grade", "Last Grade", "Optional Grade"]
+
   def self.icon_name(article = nil)
     'work-assignment'
   end
@@ -58,5 +66,9 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   def cache_key_with_person(params = {}, user = nil, language = 'en')
     cache_key_without_person + (user && profile.members.include?(user) ? "-#{user.identifier}" : '')
   end
-  alias_method_chain :cache_key, :person  
+  alias_method_chain :cache_key, :person
+
+  def final_grade_options
+    WORK_ASSIGNMENT_FINAL_GRADE_OPTIONS
+  end
 end

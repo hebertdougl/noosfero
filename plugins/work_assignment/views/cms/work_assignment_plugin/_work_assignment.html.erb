@@ -5,3 +5,17 @@
 <%=labelled_check_box(_('Publish submissions'), 'article[publish_submissions]', true, @article.publish_submissions) %>
 
 <%=labelled_check_box(_('Allow users change submissions privacy?'), 'article[allow_visibility_edition]', true, @article.allow_visibility_edition) %>
+
+<h1><%= _("Evaluation Management") %> </h1>
+
+<%=labelled_check_box(_('Activate evaluation'), 'article[work_assignment_activate_evaluation]', true, @article.work_assignment_activate_evaluation) %>
+
+<br>
+
+<%=labelled_check_box(_('Publish grade'), 'article[publish_grades]', true, @article.publish_grades) %>
+<br>
+
+<% final_grade_options = [[nil]] %>
+<% final_grade_options += @article.final_grade_options.map{|s| ["#{s}", s] } %>
+
+<%= labelled_select(_('Final grade options:'), 'article[work_assignment_final_grade_options]', :first, :last, @article,  final_grade_options)%>
