@@ -14,16 +14,10 @@ class Folder < Article
     end
   end
 
-  def display_final_grade (folder)
+  def final_grade (folder)
     unless folder.grade_submission_id.nil?
       UploadedFile.find(folder.grade_submission_id).grade_version
     end
-  end
-
-  def change_grade_parent(submission)
-    folder = submission.parent
-    folder.grade_submission_id = submission.id
-    folder.save! unless !submission.final_grade
   end
 
 end

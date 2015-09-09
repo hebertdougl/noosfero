@@ -6,6 +6,9 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :ignore_time, :type => :boolean, :default => false
   settings_items :begining, :type => :DateTime
   settings_items :ending, :type => :DateTime
+  settings_items :publish_grades, :type => :boolean, :default => false
+  settings_items :work_assignment_activate_evaluation, :type => :boolean, :default => false
+  settings_items :work_assignment_final_grade_options, :type => :string
 
   attr_accessible :publish_submissions
   attr_accessible :default_email
@@ -13,7 +16,12 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   attr_accessible :begining
   attr_accessible :ending
   attr_accessible :ignore_time
-  
+  attr_accessible :publish_grades
+  attr_accessible :work_assignment_activate_evaluation
+  attr_accessible :work_assignment_final_grade_options
+
+  WORK_ASSIGNMENT_FINAL_GRADE_OPTIONS = ["Highest Grade", "Last Grade", "Optional Grade"]
+
   def self.icon_name(article = nil)
     'work-assignment'
   end
@@ -52,7 +60,7 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
                                                                   :profile => profile,
                                                                   :author => author,
                                                                   :published => publish_submissions,
-                                                                }, 
+                                                                },
                                                                 :without_protection => true
                                                   )
   end
@@ -69,5 +77,9 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
     !(begining..ending).cover?(Time.now)
   end
 
-  alias_method_chain :cache_key, :person  
+  alias_method_chain :cache_key, :person
+
+  def final_grade_options
+    WORK_ASSIGNMENT_FINAL_GRADE_OPTIONS
+  end
 end

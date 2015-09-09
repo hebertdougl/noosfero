@@ -3,12 +3,13 @@ module WorkAssignmentPlugin::Helper
 
   def display_submissions(work_assignment, user)
     return if work_assignment.submissions.empty?
+    grade_column = content_tag('th', _('Grade'), :style => 'text-align: center') if work_assignment.work_assignment_activate_evaluation
     content_tag('table',
       content_tag('tr',
         content_tag('th', c_('Author'), :style => 'width: 50%') +
         content_tag('th', _('Submission date')) +
         content_tag('th', _('Versions'), :style => 'text-align: center') +
-        content_tag('th', _('Grade'), :style => 'text-align: center' ) +
+        grade_column.to_s +
         content_tag('th', '') +
         content_tag('th', '')
       ).html_safe +
@@ -18,11 +19,12 @@ module WorkAssignmentPlugin::Helper
 
   def display_author_folder(author_folder, user)
     return if author_folder.children.empty?
+    grade_column = content_tag('td', display_final_grade(author_folder), :style => 'text-align: center') if author_folder.parent.work_assignment_activate_evaluation
     content_tag('tr',
       content_tag('td', link_to_last_submission(author_folder, user)) +
       content_tag('td', time_format(author_folder.children.last.created_at)) +
       content_tag('td', author_folder.children.count, :style => 'text-align: center') +
-      content_tag('td', author_folder.display_final_grade(author_folder), :style => 'text-align: center') +
+      grade_column.to_s +
       content_tag('td', content_tag('button', _('View all versions'), :class => 'view-author-versions', 'data-folder-id' => author_folder.id)) +
       content_tag('td', display_privacy_button(author_folder, user))
     ).html_safe +
@@ -30,14 +32,15 @@ module WorkAssignmentPlugin::Helper
   end
 
   def display_submission(submission, user)
+    grade_column = content_tag('td', display_submission_grade(submission), :style => 'text-align: center') if submission.parent.parent.work_assignment_activate_evaluation
     content_tag('tr',
       content_tag('td', link_to_submission(submission, user)) +
       content_tag('td', time_format(submission.created_at))+
       content_tag('td', '') +
-      content_tag('td', display_submission_grade(submission), :style => 'text-align: center') +
+      grade_column.to_s +
       content_tag('td',
         if submission.parent.parent.allow_post_content?(user)
-          display_delete_button(submission) + display_assign_grade_button(submission)
+          display_delete_button(submission) + display_assign_grade_button(submission).to_s
         end
       ),
       :class => "submission-from-#{submission.parent.id}",
@@ -69,12 +72,25 @@ module WorkAssignmentPlugin::Helper
     time.strftime("%Y-%m-%d#{hour+minutes+h}")
   end
 
+  def display_grade_column(work_assignment)
+    unless work_assignment.work_assignment_activate_evaluation
+      'display: none'
+    end
+  end
+
+  def display_final_grade(author_folder)
+    author_folder.parent.publish_grades ? author_folder.final_grade(author_folder) : ""
+  end
+
   def display_submission_grade(submission)
-    submission.valuation_date ? submission.grade_version : ""
+    submission.valuation_date && submission.parent.parent.publish_grades ? submission.grade_version : ""
   end
 
   def display_assign_grade_button(submission)
-    modal_icon_button :edit, _('Assign'), { :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission, :uploaded_file => submission}
+    work_assignment = submission.parent.parent
+    if work_assignment.work_assignment_activate_evaluation
+      modal_icon_button :edit, _('Assign'), { :action => 'assign_grade', :controller => 'work_assignment_plugin_myprofile', :submission => submission, :uploaded_file => submission}
+    end
   end
 
   def display_delete_button(article)

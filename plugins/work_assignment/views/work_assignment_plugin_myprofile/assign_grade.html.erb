@@ -34,8 +34,7 @@
   <%= hidden_field_tag('submission', @submission.id) %>
 
   <%= labelled_form_field _('Grade'), text_field_tag(:grade_version, @submission.grade_version)%>
-
-  <%= labelled_form_field _('Final Grade'), (check_box_tag :final_grade, @submission.final_grade, @submission.final_grade) %>
+  <%= labelled_form_field _('Final Grade'), (check_box_tag :final_grade, nil, @submission.id == @submission.parent.grade_submission_id) %>
 
   <% button_bar do %>
     <%= submit_button :assign_grade, _('Assign Grade') %>
