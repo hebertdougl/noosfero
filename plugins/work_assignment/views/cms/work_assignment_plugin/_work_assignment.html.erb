@@ -15,7 +15,6 @@
 <%=labelled_check_box(_('Publish grade'), 'article[publish_grades]', true, @article.publish_grades) %>
 <br>
 
-<% final_grade_options = [[nil]] %>
-<% final_grade_options += @article.final_grade_options.map{|s| ["#{s}", s] } %>
+<% final_grade_options = @article.final_grade_options.map{|s| ["#{s}", s] } %>
 
-<%= labelled_select(_('Final grade options:'), 'article[work_assignment_final_grade_options]', :first, :last, @article,  final_grade_options)%>
+<%= labelled_select(_('Final grade options:'), 'article[work_assignment_final_grade_options]', :first, :last, @article.work_assignment_final_grade_options,  final_grade_options)%>
