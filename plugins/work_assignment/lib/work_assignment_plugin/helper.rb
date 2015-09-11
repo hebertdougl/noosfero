@@ -19,7 +19,7 @@ module WorkAssignmentPlugin::Helper
 
   def display_author_folder(author_folder, user)
     return if author_folder.children.empty?
-    grade_column = content_tag('td', display_final_grade(author_folder), :style => 'text-align: center') if author_folder.parent.work_assignment_activate_evaluation
+    grade_column = content_tag('td', display_final_grade(author_folder, user), :style => 'text-align: center') if author_folder.parent.work_assignment_activate_evaluation
     content_tag('tr',
       content_tag('td', link_to_last_submission(author_folder, user)) +
       content_tag('td', time_format(author_folder.children.last.created_at)) +
@@ -78,12 +78,25 @@ module WorkAssignmentPlugin::Helper
     end
   end
 
-  def display_final_grade(author_folder)
-    author_folder.parent.publish_grades ? author_folder.final_grade(author_folder) : ""
+  def display_final_grade(author_folder, user)
+    folder = environment.articles.find_by_id(author_folder.id)
+    work_assignment = folder.parent
+    if((user && author_folder.author_id == user.id &&
+      work_assignment.publish_grades && (user.is_member_of? profile) ) || (profile.is_admin? user) )
+
+      author_folder.final_grade(author_folder)
+    end
   end
 
   def display_submission_grade(submission)
-    submission.valuation_date && submission.parent.parent.publish_grades ? submission.grade_version : ""
+    folder = environment.articles.find_by_id(submission.parent.id)
+    work_assignment = folder.parent
+    if((user && folder.author_id == user.id &&
+      work_assignment.publish_grades && (user.is_member_of? profile) ) || (profile.is_admin? user) )
+      if submission.valuation_date
+        submission.grade_version
+      end
+    end
   end
 
   def display_assign_grade_button(submission)
