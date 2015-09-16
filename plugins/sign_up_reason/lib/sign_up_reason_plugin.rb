@@ -14,15 +14,9 @@ class SignUpReasonPlugin < Noosfero::Plugin
     }
   end
 
-
   def account_controller_filters
     block = proc do
       if request.post?
-        puts "=" * 80
-        puts environment.users.find_by_login(params[:user][:login]).inspect
-        puts "=" * 80
-        puts environment.users.find_by_login(params[:user][:login]).id
-        puts "=" * 80
         @user = environment.users.find_by_login(params[:user][:login])
         @task = ModerateUserRegistration.new
         @task.signup_reason = params[:task][:signup_reason]

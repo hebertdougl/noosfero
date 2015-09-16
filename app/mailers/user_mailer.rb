@@ -17,7 +17,6 @@ class UserMailer < ActionMailer::Base
   def activation_code(user)
     @recipient = user.name
     @activation_code = user.activation_code
-    puts "*"*80,@activation_code,"*"*80
     @environment = user.environment.name
     @url = user.environment.top_url
     @redirection = (true if user.return_to)
