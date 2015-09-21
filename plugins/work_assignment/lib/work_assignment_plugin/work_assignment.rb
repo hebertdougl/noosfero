@@ -4,6 +4,8 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :default_email, :type => :string, :default => ""
   settings_items :allow_visibility_edition, :type => :boolean, :default => false
   settings_items :ignore_time, :type => :boolean, :default => false
+  settings_items :begining, :type => :DateTime
+  settings_items :ending, :type => :DateTime
 
   attr_accessible :publish_submissions
   attr_accessible :default_email
