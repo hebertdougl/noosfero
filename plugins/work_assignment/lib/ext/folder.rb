@@ -14,7 +14,7 @@ class Folder < Article
     end
   end
 
-  def final_grade (folder)
+  def final_grade (folder) # why not 'self'
     grade_options = folder.parent.work_assignment_final_grade_options.downcase
     if grade_options == "highest grade"
       folder.children.map{|c| c.grade_version}.max

@@ -29,15 +29,16 @@ before_filter :protect_if, :only => [:edit_visibility]
   def assign_grade
     @submission = UploadedFile.find params[:submission]
     work_assignment = @submission.parent.parent
+    @back_to = url_for(work_assignment.url)
     if request.post? && work_assignment.work_assignment_activate_evaluation
       @submission.grade_version = params[:grade_version]
       @submission.valuation_date = Time.now
       @submission.save!
-      if params[:final_grade]
-        change_grade_parent @submission
-      end
+      change_grade_parent @submission unless params[:final_grade]
 
-      redirect_to :back
+      redirect_to @back_to
+    else
+      render_access_denied
     end
   end
 
