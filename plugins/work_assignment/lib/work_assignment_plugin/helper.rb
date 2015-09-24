@@ -80,7 +80,7 @@ module WorkAssignmentPlugin::Helper
 
   def display_final_grade(author_folder, user)
     folder = environment.articles.find_by_id(author_folder.id)
-    author_folder.final_grade(author_folder) if see_grade(folder, user)
+    author_folder.final_grade if see_grade(folder, user)
   end
 
   def display_submission_grade(submission, user)

@@ -200,7 +200,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     @back_to = url_for(work_assignment.url)
 
     file.reload
-    assert_nil folder.final_grade(folder)
+    assert_nil folder.final_grade
   end
 
   should 'the final grade be updated with action assign_grade' do
@@ -215,10 +215,10 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     folder.parent.save
 
     post :assign_grade, :profile => @organization.identifier, :submission => file.id, :grade_version => 6
-    assert_equal folder.final_grade(folder), 6
+    assert_equal folder.final_grade, 6
 
     post :assign_grade, :profile => @organization.identifier, :submission => other_file.id, :grade_version => 5
-    assert_equal folder.final_grade(folder), 6
+    assert_equal folder.final_grade, 6
   end
 
   should 'the final grade be the highest if the highest option is selected' do
@@ -237,7 +237,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     assert_redirected_to @back_to
     file.reload
     other_file.reload
-    assert_equal folder.final_grade(folder), 6
+    assert_equal folder.final_grade, 6
   end
 
   should 'the final grade be the latest when the latest option is selected' do
@@ -251,7 +251,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     @back_to = url_for(work_assignment.url)
     assert_redirected_to @back_to
     file.reload
-    assert_equal folder.final_grade(folder), file.setting[:grade_version]
+    assert_equal folder.final_grade, file.setting[:grade_version]
   end
 
 # end tests for work_assignment grade functionality

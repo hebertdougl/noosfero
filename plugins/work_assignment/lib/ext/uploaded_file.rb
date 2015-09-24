@@ -11,4 +11,9 @@ class UploadedFile < Article
   attr_accessible :valuation_date
   attr_accessible :final_grade
 
+  def change_grade_parent
+    folder = self.parent
+    folder.grade_submission_id = self.id
+    folder.save!
+  end
 end
