@@ -30,25 +30,21 @@ before_filter :protect_if, :only => [:edit_visibility]
     @submission = UploadedFile.find params[:submission]
     work_assignment = @submission.parent.parent
     @back_to = url_for(work_assignment.url)
-    if request.post? && work_assignment.work_assignment_activate_evaluation
-      @submission.grade_version = params[:grade_version]
-      @submission.valuation_date = Time.now
-      @submission.save!
-      change_grade_parent @submission unless params[:final_grade]
+    if work_assignment.work_assignment_activate_evaluation
+      if request.post?
+        @submission.grade_version = params[:grade_version]
+        @submission.valuation_date = Time.now
+        @submission.save!
+        @submission.change_grade_parent unless params[:final_grade]
 
-      redirect_to @back_to
+        redirect_to @back_to
+      end
     else
       render_access_denied
     end
   end
 
   protected
-
-  def change_grade_parent(submission)
-    folder = submission.parent
-    folder.grade_submission_id = submission.id
-    folder.save!
-  end
 
   def protect_if
     article = environment.articles.find_by_id(params[:article_id])
