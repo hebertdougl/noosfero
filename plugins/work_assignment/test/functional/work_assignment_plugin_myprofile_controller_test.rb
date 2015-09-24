@@ -187,12 +187,10 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 # work_assignment grade functionality
 
   should 'the final grade not show if the evaluation option isnt selected' do
-    @organization.add_member(@person) # current_user is a member
     work_assignment = create_work_assignment('Work Assignment', @organization, nil, nil, false, false, false)
 
     folder = work_assignment.find_or_create_author_folder(@person)
-    folder.parent.work_assignment_final_grade_options = "Highest Grade"
-    folder.parent.save
+    folder.parent.save!
 
     file = create_uploaded_file("/files/file.txt", @organization, folder, @person, @person, true)
 
@@ -217,12 +215,12 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     post :assign_grade, :profile => @organization.identifier, :submission => file.id, :grade_version => 6
     assert_equal folder.final_grade, 6
 
-    post :assign_grade, :profile => @organization.identifier, :submission => other_file.id, :grade_version => 5
-    assert_equal folder.final_grade, 6
+    post :assign_grade, :profile => @organization.identifier, :submission => other_file.id, :grade_version => 7
+    folder.reload
+    assert_equal folder.final_grade, 7
   end
 
   should 'the final grade be the highest if the highest option is selected' do
-    @organization.add_member(@person) # current_user is a member
     work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("/files/file.txt", @organization, folder, @person, @person, true)
@@ -231,26 +229,32 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     folder.reload #update children
     folder.parent.work_assignment_final_grade_options = "Highest Grade"
     folder.parent.save
+
     post :assign_grade, :profile => @organization.identifier, :submission => file.id, :grade_version => 6
     post :assign_grade, :profile => @organization.identifier, :submission => other_file.id, :grade_version => 5
+
     @back_to = url_for(work_assignment.url)
+
     assert_redirected_to @back_to
     file.reload
     other_file.reload
+
     assert_equal folder.final_grade, 6
   end
 
   should 'the final grade be the latest when the latest option is selected' do
-    @organization.add_member(@person) # current_user is a member
     work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("file.txt", @organization, folder, @person, @person, true)
     folder.reload
     folder.parent.work_assignment_final_grade_options = "Last Grade"
+
     post :assign_grade, :profile => @organization.identifier, :submission => file.id, :grade_version => 6
+
     @back_to = url_for(work_assignment.url)
     assert_redirected_to @back_to
     file.reload
+
     assert_equal folder.final_grade, file.setting[:grade_version]
   end
 
@@ -259,7 +263,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
   private
 
   def create_work_assignment(name = "text.txt", profile = nil, publish_submissions = nil, allow_visibility_edition = nil, begining = Time.now, ending = Time.now + 1.day, work_assignment_activate_evaluation = nil, publish_grades = nil, work_assignment_final_grade_options = nil)
-    @work_assignment = WorkAssignmentPlugin::WorkAssignment.create!(:name => name, :profile => profile, :publish_submissions => publish_submissions, :allow_visibility_edition => allow_visibility_edition, :begining => begining, :ending => ending, :work_assignment_final_grade_options => true, :publish_grades => publish_grades, :work_assignment_activate_evaluation => work_assignment_activate_evaluation)
+    @work_assignment = WorkAssignmentPlugin::WorkAssignment.create!(:name => name, :profile => profile, :publish_submissions => publish_submissions, :allow_visibility_edition => allow_visibility_edition, :begining => begining, :ending => ending, :publish_grades => publish_grades, :work_assignment_activate_evaluation => work_assignment_activate_evaluation)
   end
 
   def create_uploaded_file(name_slug = nil, profile = nil, parent = nil, last_changed_by= nil, author = nil, protection_type = nil)
