@@ -5,7 +5,7 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :allow_visibility_edition, :type => :boolean, :default => false
   settings_items :publish_grades, :type => :boolean, :default => false
   settings_items :work_assignment_activate_evaluation, :type => :boolean, :default => false
-  settings_items :work_assignment_final_grade_options, :type => :string, :default => "Optional Grade"
+  settings_items :work_assignment_final_grade_options, :type => :string, :default => "Highest Grade"
 
   attr_accessible :publish_submissions
   attr_accessible :default_email
@@ -54,7 +54,7 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
                                                                   :profile => profile,
                                                                   :author => author,
                                                                   :published => publish_submissions,
-                                                                }, 
+                                                                },
                                                                 :without_protection => true
                                                   )
   end
