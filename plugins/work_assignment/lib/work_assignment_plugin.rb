@@ -18,7 +18,15 @@ class WorkAssignmentPlugin < Noosfero::Plugin
   end
 
   def content_types
-    [WorkAssignmentPlugin::WorkAssignment] if context.respond_to?(:profile) && context.profile.organization?
+    types = []
+    parent_id = context.params[:parent_id] if context.respond_to?(:params) && context.params
+    if context.respond_to?(:profile) && context.profile.organization?
+      parent = parent_id ? context.profile.articles.find(parent_id) : nil
+      types << WorkAssignmentPlugin::WorkAssignmentGroup if !parent
+      types << [WorkAssignmentPlugin::WorkAssignment] if parent.kind_of?(WorkAssignmentPlugin::WorkAssignmentGroup)
+    end
+
+    types
   end
 
   def stylesheet?

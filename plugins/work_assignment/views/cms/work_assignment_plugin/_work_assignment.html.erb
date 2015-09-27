@@ -28,3 +28,5 @@
 <% final_grade_options = @article.final_grade_options.map{|s| ["#{s}", s] } %>
 
 <%= labelled_select(_('Final grade options:'), 'article[work_assignment_final_grade_options]', :first, :last, @article.work_assignment_final_grade_options,  final_grade_options)%>
+
+<%= hidden_field_tag('parent_id', params[:parent_id]) %>
