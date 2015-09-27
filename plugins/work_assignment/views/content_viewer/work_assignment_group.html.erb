@@ -1,0 +1,22 @@
+<% extend WorkAssignmentPlugin::Helper %>
+
+<div id="work-assignment-group">
+  <% unless work_assignment_group.body.blank? %>
+  <div><%= work_assignment_group.body %></div>
+<% end %>
+
+  <h2><%= _("Work Assignment") %></h2>
+
+  <% if work_assignment_group.allow_create?(user) %>
+    <div class="work-assignment">
+      <% button_bar do %>
+        <%= button(:add, _('Add %s') % WorkAssignmentPlugin::WorkAssignment.short_description, :controller => 'cms', :action => 'new', :type => 'WorkAssignmentPlugin::WorkAssignment', :parent_id => work_assignment_group.id)%>
+      <% end %>
+    </div>
+  <% end %>
+
+  <ul class="work_assignment_list">
+      <%= render :partial => 'work_assignment_list', :collection => work_assignment_group.work_assignment_list %>
+  </ul>
+
+</div>
