@@ -8,22 +8,22 @@
     </tr>
 
     <tr>
-      <td><%= _('Nome arquivo') %></td>
+      <td><%= _('File name: ') %></td>
       <td><%= link_to(@submission.name, @submission.url) %></td>
     </tr>
 
     <tr>
-      <td><%= _('Upload at') %></td>
+      <td><%= _('Upload at: ') %></td>
       <td><%=  @submission.created_at %></td>
     </tr>
 
     <tr>
-      <td><%= _('Last evaluation date') %></td>
+      <td><%= _('Last evaluation date: ') %></td>
       <td><%=  @submission.valuation_date ? @submission.valuation_date : '-' %></td>
     </tr>
 
     <tr>
-      <td><%= _('Current Grade') %></td>
+      <td><%= _('Current Grade: ') %></td>
       <td><%=  @submission.valuation_date ? @submission.grade_version : '-' %></td>
     </tr>
   </tbody>
