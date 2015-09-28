@@ -35,7 +35,7 @@ before_filter :protect_if, :only => [:edit_visibility]
         @submission.grade_version = params[:grade_version]
         @submission.valuation_date = Time.now
         @submission.save!
-        @submission.change_grade_parent unless params[:final_grade]
+        @submission.change_grade_parent if params[:final_grade]
 
         redirect_to @back_to
       end
