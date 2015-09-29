@@ -67,11 +67,11 @@ class WorkAssignmentPlugin < Noosfero::Plugin
       end
     end
     validate_block = proc do
-        @article = Article.find_by_id(params[:parent_id])
-        if @article.expired? && !@article.ignore_time && @article
-          render_access_denied(_("The time limit for uploading work over."), _("Oops ... you cannot go ahead here"))
-          session[:notice] = _('The timeout expired!')
-        end
+      @article = Article.find_by_id(params[:parent_id])
+      if @article && @article.type == "WorkAssignmentPlugin::WorkAssignment" && @article.expired? && !@article.ignore_time
+        render_access_denied(_("The time limit for uploading work over."), _("Oops ... you cannot go ahead here"))
+        session[:notice] = _('The timeout expired!')
+      end
     end
     [
       { :type => 'after_filter',
