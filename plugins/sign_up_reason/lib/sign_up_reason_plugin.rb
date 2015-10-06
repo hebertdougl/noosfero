@@ -10,29 +10,33 @@ class SignUpReasonPlugin < Noosfero::Plugin
 
   def signup_extra_contents
     proc {
-      content_tag(:div, labelled_form_field(_('Reason:'), text_area(:task, :signup_reason, :rows => 10)))
+      if Environment.default.enabled?('admin_must_approve_new_users')
+        content_tag(:div, labelled_form_field(_('Reason:'), text_area(:task, :signup_reason, :rows => 10)))
+      end
     }
   end
 
   def account_controller_filters
     validate_block = proc do
-      if request.post?
-        if params[:task][:signup_reason].empty?
-          @person = Person.new(params[:profile_data])
-          @person.environment = environment
-          @user = User.new(params[:user])
-          @task = ModerateUserRegistration.new
-          @task.signup_reason = params[:task][:signup_reason]
-          @person.errors.add(:signup_reason, _(' invalid.'))
-          render :action => :signup
+      if Environment.default.enabled?('admin_must_approve_new_users')
+        if request.post?
+          if params[:task][:signup_reason].empty?
+            @person = Person.new(params[:profile_data])
+            @person.environment = environment
+            @user = User.new(params[:user])
+            @task = ModerateUserRegistration.new
+            @task.signup_reason = params[:task][:signup_reason]
+            @person.errors.add(:signup_reason, _(' invalid.'))
+            render :action => :signup
+          end
         end
       end
     end
 
     block = proc do
-      if request.post?
-        @user = environment.users.find_by_login(params[:user][:login])
-        if @user
+      if Environment.default.enabled?('admin_must_approve_new_users')
+        if request.post?
+          @user = environment.users.find_by_login(params[:user][:login])
           @task = ModerateUserRegistration.new
           @task.signup_reason = params[:task][:signup_reason]
           @task.requestor_id = @user.id
@@ -53,7 +57,5 @@ class SignUpReasonPlugin < Noosfero::Plugin
       :block => block}
     ]
   end
-
-
 
 end
