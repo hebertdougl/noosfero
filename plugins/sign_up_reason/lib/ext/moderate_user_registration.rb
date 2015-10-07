@@ -3,7 +3,6 @@ require_dependency 'moderate_user_registration'
 class ModerateUserRegistration
 
   attr_accessible :signup_reason
-  attr_accessor :signup_reason
 
   def information
     { :message => _('%{sender} wants register. Signup reason: %{signup_reason}'),

@@ -18,8 +18,8 @@ class SignUpReasonPlugin < Noosfero::Plugin
 
   def account_controller_filters
     validate_block = proc do
-      if Environment.default.enabled?('admin_must_approve_new_users')
-        if request.post?
+      if request.post?
+        if Environment.default.enabled?('admin_must_approve_new_users')
           if params[:task][:signup_reason].empty?
             @person = Person.new(params[:profile_data])
             @person.environment = environment
@@ -34,14 +34,16 @@ class SignUpReasonPlugin < Noosfero::Plugin
     end
 
     block = proc do
-      if Environment.default.enabled?('admin_must_approve_new_users')
-        if request.post?
-          @user = environment.users.find_by_login(params[:user][:login])
-          @task = ModerateUserRegistration.new
-          @task.signup_reason = params[:task][:signup_reason]
-          @task.requestor_id = @user.id
-          @task.status = 4
-          @task.save
+      if request.post?
+        if Environment.default.enabled?('admin_must_approve_new_users')
+          user = environment.users.find_by_login(params[:user][:login])
+          unless @user.errors.any?
+            @task = ModerateUserRegistration.new
+            @task.signup_reason = params[:task][:signup_reason]
+            @task.requestor_id = user.person.id
+            @task.status = 4
+            @task.save
+          end
         end
       end
     end
