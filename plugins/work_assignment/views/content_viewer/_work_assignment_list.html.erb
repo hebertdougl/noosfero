@@ -1,12 +1,27 @@
-<li class="work_assignmnet_group">
-  <div class="tool_link">
-    <div class="content">
-      <div class="name">
-        <%= work_assignment_list.name %>
-      </div>
-      <div class="lead">
-        <%= work_assignment_list.body %>
-      </div>
+<li class="work-assignent-group">
+  <div class="content">
+    <div class="name">
+      <%= work_assignment_list.name %>
     </div>
+      <ul class="work-assignment-date">
+        <li class="date">
+          <span><%= _('Begining: ') + show_day_of_week(work_assignment_list.begining) + ", " + show_time(work_assignment_list.begining) %>
+        </li>
+        <li class="date">
+          <span><%= _('Ending: ') + show_day_of_week(work_assignment_list.ending) + ", " + show_time(work_assignment_list.ending) %>
+        </li>
+      </ul>
+  </div>
+  <div class="actions">
+  <%= puts "%"*80, work_assignment_list.inspect, "%"*80 %>
+
+  <%= button('eyes', _('View'), work_assignment_list.url) %>
+
+  <% content = content_tag('span', label_for_edit_article(work_assignment_list)) %>
+      <% url = profile.admin_url.merge({ :controller => 'cms', :action => 'edit', :id => work_assignment_list.id, :success_back_to => url_for(work_assignment_list.parent.view_url) }) %>
+  <%= expirable_button work_assignment_list, :edit, content, url %>
+
+  <%= button('upload-file', c_('Upload files'), profile.admin_url.merge(:controller => 'cms', :action => 'upload_files', :parent_id => work_assignment_list))%>
+
   </div>
 </li>

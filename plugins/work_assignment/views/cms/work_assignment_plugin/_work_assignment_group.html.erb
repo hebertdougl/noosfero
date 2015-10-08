@@ -1,0 +1,13 @@
+<div class='work-assignment-group'>
+
+  <%= render :partial => 'article', :locals => {:f => f} %>
+
+  <%= labelled_form_field(_('Short name:'), text_field(:article, :short_name, :size => '64', :maxlength => 150)) %>
+
+  <%=labelled_form_field(_('Period: '), (date_range_field('article[start_date]', 'article[end_date]', @article.start_date, @article.end_date, '%Y-%m-%d %H:%M',
+                   { :time => true, :change_month => true, :change_year => true,
+                     :date_format => 'yy-mm-dd', :time_format => 'hh:mm' },
+                     { :size => 14 })
+  )) %>
+
+</div>

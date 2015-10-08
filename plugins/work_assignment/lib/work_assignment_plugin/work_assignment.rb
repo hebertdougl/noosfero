@@ -10,6 +10,8 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :work_assignment_activate_evaluation, :type => :boolean, :default => false
   settings_items :work_assignment_final_grade_options, :type => :string, :default => "Highest Grade"
 
+  attr_accessible :begining
+  attr_accessible :ending
   attr_accessible :publish_submissions
   attr_accessible :default_email
   attr_accessible :allow_visibility_edition
@@ -21,6 +23,8 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   attr_accessible :work_assignment_final_grade_options
 
   WORK_ASSIGNMENT_FINAL_GRADE_OPTIONS = ["Highest Grade", "Last Grade", "Optional Grade"]
+
+  validate :validate_date
 
   def self.icon_name(article = nil)
     'work-assignment'
@@ -67,6 +71,14 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
 
   def submissions
     children.map(&:children).flatten.compact
+  end
+
+  def validate_date
+    parent = self.parent
+    range = self.begining..self.ending
+    range_group = parent.start_date..parent.end_date
+
+    errors.add(:begining, _(' or ending is outside the group limit.')) unless range_group.cover?(range)
   end
 
   def cache_key_with_person(params = {}, user = nil, language = 'en')
