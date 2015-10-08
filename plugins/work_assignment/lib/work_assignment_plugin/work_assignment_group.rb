@@ -1,8 +1,12 @@
 class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
 
-  settings_items :description, :type => :string
+  settings_items :short_name, :type => :string
+  settings_items :start_date, :type => :DateTime
+  settings_items :end_date, :type => :DateTime
 
-  attr_accessible :description
+  attr_accessible :short_name
+  attr_accessible :start_date
+  attr_accessible :end_date
 
 
   def self.icon_name(article = nil)
@@ -18,7 +22,7 @@ class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
   end
 
   def work_assignment_list
-    children.where(:type => 'WorkAssignmentPlugin::WorkAssignment')
+    children.where(:type => 'WorkAssignmentPlugin::WorkAssignment').order("begining ASC")
   end
 
   def accept_comments?

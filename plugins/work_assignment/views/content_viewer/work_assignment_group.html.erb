@@ -3,9 +3,17 @@
 <div id="work-assignment-group">
   <% unless work_assignment_group.body.blank? %>
   <div><%= work_assignment_group.body %></div>
+    <ul class="work-assignment-date">
+      <li class="date">
+        <span><%= _('Start date: ') + show_day_of_week(work_assignment_group.start_date) + ", " + show_time(work_assignment_group.start_date) %>
+      </li>
+      <li class="date">
+        <span><%= _('End date: ') + show_day_of_week(work_assignment_group.end_date) + ", " + show_time(work_assignment_group.end_date) %>
+      </li>
+    </ul>
 <% end %>
 
-  <h2><%= _("Work Assignment") %></h2>
+  <h2><%= _("Work Assignment List") %></h2>
 
   <% if work_assignment_group.allow_create?(user) %>
     <div class="work-assignment">

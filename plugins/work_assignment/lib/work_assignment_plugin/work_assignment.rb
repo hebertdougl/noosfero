@@ -4,9 +4,13 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :default_email, :type => :string, :default => ""
   settings_items :allow_visibility_edition, :type => :boolean, :default => false
 
+  attr_accessible :begining
+  attr_accessible :ending
   attr_accessible :publish_submissions
   attr_accessible :default_email
   attr_accessible :allow_visibility_edition
+
+  validate :validate_date
   
   def self.icon_name(article = nil)
     'work-assignment'
@@ -53,6 +57,14 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
 
   def submissions
     children.map(&:children).flatten.compact
+  end
+
+  def validate_date
+    parent = self.parent
+    range = self.begining..self.ending
+    range_group = parent.start_date..parent.end_date
+
+    errors.add(:begining, _(' or ending is outside the group limit.')) unless range_group.cover?(range)
   end
 
   def cache_key_with_person(params = {}, user = nil, language = 'en')
