@@ -1,9 +1,9 @@
 class WorkAssignmentPluginMyprofileController < MyProfileController
 
-helper ArticleHelper
-helper CmsHelper
+  helper ArticleHelper
+  helper CmsHelper
 
-before_filter :protect_if, :only => [:edit_visibility]
+  before_filter :protect_if, :only => [:edit_visibility]
 
   def edit_visibility
     unless params[:article_id].blank?
@@ -18,7 +18,7 @@ before_filter :protect_if, :only => [:edit_visibility]
         redirect_to @back_to
       end
     end
-   end
+  end
 
   def search_article_privacy_exceptions
     arg = params[:q].downcase
@@ -42,6 +42,11 @@ before_filter :protect_if, :only => [:edit_visibility]
     else
       render_access_denied
     end
+  end
+
+  def work_assignment_list
+    @work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.find params[:work_assignment_group]
+    @work_assignment_list = @work_assignment_group.work_assignment_list
   end
 
   protected

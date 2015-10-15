@@ -22,7 +22,7 @@ class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
   end
 
   def work_assignment_list
-    children.where(:type => 'WorkAssignmentPlugin::WorkAssignment').order("begining ASC")
+    children.where(:type => 'WorkAssignmentPlugin::WorkAssignment').order("ending ASC")
   end
 
   def accept_comments?
