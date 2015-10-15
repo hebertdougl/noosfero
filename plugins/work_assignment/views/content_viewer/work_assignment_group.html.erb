@@ -2,29 +2,18 @@
 
 <div id="work-assignment-group">
   <% unless work_assignment_group.body.blank? %>
-  <div><%= work_assignment_group.body %></div>
-    <ul class="work-assignment-date">
-      <li class="date">
-        <span><%= _('Start date: ') + show_day_of_week(work_assignment_group.start_date) + ", " + show_time(work_assignment_group.start_date) %>
-      </li>
-      <li class="date">
-        <span><%= _('End date: ') + show_day_of_week(work_assignment_group.end_date) + ", " + show_time(work_assignment_group.end_date) %>
-      </li>
-    </ul>
-<% end %>
-
-  <h2><%= _("Work Assignment List") %></h2>
-
-  <% if work_assignment_group.allow_create?(user) %>
-    <div class="work-assignment">
-      <% button_bar do %>
-        <%= button(:add, _('Add %s') % WorkAssignmentPlugin::WorkAssignment.short_description, :controller => 'cms', :action => 'new', :type => 'WorkAssignmentPlugin::WorkAssignment', :parent_id => work_assignment_group.id)%>
-      <% end %>
-    </div>
+    <div><%= work_assignment_group.body %></div>
+    <h2> <%= _('Start date: ') %> </h2>
+      <span><%= show_day_of_week(work_assignment_group.start_date) + ", " + show_time(work_assignment_group.start_date) %>
+    <h2> <%= _('End date: ') %> </h2>
+      <span><%= show_day_of_week(work_assignment_group.end_date) + ", " + show_time(work_assignment_group.end_date) %>
   <% end %>
 
-  <ul class="work_assignment_list">
-      <%= render :partial => 'work_assignment_list', :collection => work_assignment_group.work_assignment_list %>
-  </ul>
+  <h1><%= _("Work Assignment List") %></h1>
 
+  <div class="work-assignment">
+    <% button_bar do %>
+      <%= button(:eyes, _('View work assignment List'), :controller => 'work_assignment_plugin_myprofile', :action => 'work_assignment_list', :type => 'WorkAssignmentPlugin::WorkAssignment', :work_assignment_group => work_assignment_group)%>
+    <% end %>
+  </div>
 </div>

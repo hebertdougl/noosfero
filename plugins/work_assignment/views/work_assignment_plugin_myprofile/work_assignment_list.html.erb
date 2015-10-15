@@ -1,0 +1,39 @@
+<% if @work_assignment_group && !@work_assignment_group.path.blank? %>
+  <div id="article-parent">
+    <%= button(:back, _('Go back to %s') % @work_assignment_group.short_title, @work_assignment_group.url) %>
+  </div>
+<% end %>
+
+<% if @work_assignment_group.allow_create?(user) %>
+  <div class="work-assignment">
+    <% button_bar do %>
+      <%= button(:add, _('Add %s') % WorkAssignmentPlugin::WorkAssignment.short_description, :controller => 'cms', :action => 'new', :type => 'WorkAssignmentPlugin::WorkAssignment', :parent_id => @work_assignment_group.id)%>
+    <% end %>
+  </div>
+<% end %>
+
+
+<div class="work-assignment-list">
+  <div class="content">
+
+  <% @work_assignment_list.each do |work| %>
+      <h1> <%= work.name %> </h1>
+
+      <span> <%= _('Begining: ') %> </span>
+      <span> <%= show_day_of_week(work.begining) + ", " + show_time(work.begining) %> </span>
+      <span> <%= _('Ending: ') %> </span>
+        <span><%= show_day_of_week(work.ending) + ", " + show_time(work.ending) %> </span>
+    </div>
+    <div id="work-assignment-list-actions"> 
+      <%= button('eyes', _('View'), work.url) %>
+
+      <% content = content_tag('span', label_for_edit_article(work)) %>
+          <% url = profile.admin_url.merge({ :controller => 'cms', :action => 'edit', :id => work.id, :success_back_to => url_for(work.parent.view_url) }) %>
+      
+      <%= button(:edit, _('Edit'), url) %>
+
+      <%= button('upload-file', c_('Upload files'), profile.admin_url.merge(:controller => 'cms', :action => 'upload_files', :parent_id => work))%>
+  </div>
+  <% end %>
+</div>
+
