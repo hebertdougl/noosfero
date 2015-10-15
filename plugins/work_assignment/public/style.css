@@ -1,7 +1,7 @@
 .icon-newwork-assignment { background-image: url(../../designs/icons/tango/Tango/16x16/categories/applications-office.png) }
 .icon-work-assignment { background-image: url(../../designs/icons/tango/Tango/16x16/categories/applications-office.png) }
 
-#time-ago{
+#work-assignment-time-ago{
   padding: 10px;
   margin-bottom: 15px;
   background-color: #E6E6E6;
@@ -11,10 +11,10 @@
   text-align: center;
 }
 
-#right-block{
+#work-assignment-date{
   font-weight: 700;
 }
 
-#final-date{
+#work-assignment-final-date{
 	padding: 3px;
 }
