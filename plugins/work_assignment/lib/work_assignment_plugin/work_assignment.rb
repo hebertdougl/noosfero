@@ -4,8 +4,6 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   settings_items :default_email, :type => :string, :default => ""
   settings_items :allow_visibility_edition, :type => :boolean, :default => false
   settings_items :ignore_time, :type => :boolean, :default => false
-  settings_items :begining, :type => :DateTime
-  settings_items :ending, :type => :DateTime
   settings_items :publish_grades, :type => :boolean, :default => false
   settings_items :work_assignment_activate_evaluation, :type => :boolean, :default => false
   settings_items :work_assignment_final_grade_options, :type => :string, :default => "Highest Grade"
@@ -15,8 +13,6 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   attr_accessible :publish_submissions
   attr_accessible :default_email
   attr_accessible :allow_visibility_edition
-  attr_accessible :begining
-  attr_accessible :ending
   attr_accessible :ignore_time
   attr_accessible :publish_grades
   attr_accessible :work_assignment_activate_evaluation
@@ -75,10 +71,11 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
 
   def validate_date
     parent = self.parent
-    range = self.begining..self.ending
-    range_group = parent.start_date..parent.end_date
-
-    errors.add(:begining, _(' or ending is outside the group limit.')) unless range_group.cover?(range)
+    if parent
+      range = self.begining..self.ending
+      range_group = parent.start_date..parent.end_date
+      errors.add(:begining, _(' or ending is outside the group limit.')) unless range_group.cover?(self.begining) && range_group.cover?(self.ending)
+    end
   end
 
   def cache_key_with_person(params = {}, user = nil, language = 'en')

@@ -188,7 +188,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 
   should 'the final grade not show if the evaluation option isnt selected' do
     @organization.add_member(@person)
-    work_assignment = create_work_assignment('Work Assignment', @organization, nil, nil, false, false)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, nil, nil, nil, false, false)
 
     folder = work_assignment.find_or_create_author_folder(@person)
     folder.parent.save!
@@ -204,7 +204,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 
   should 'the final grade be updated with action assign_grade' do
     @organization.add_member(@person)
-    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, nil, nil, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("/files/file.txt", @organization, folder, @person, @person, true)
 
@@ -217,7 +217,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 
   should 'the final grade be the highest if the highest option is selected' do
     @organization.add_member(@person)
-    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, nil, nil, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("/files/file.txt", @organization, folder, @person, @person, true)
     other_file = create_uploaded_file("file2.txt", @organization, folder, @person, @person, true)
@@ -240,7 +240,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 
   should 'the final grade be the latest when the latest option is selected' do
     @organization.add_member(@person)
-    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, nil, nil, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("file.txt", @organization, folder, @person, @person, true)
     other_file = create_uploaded_file("file2.txt", @organization, folder, @person, @person, true)
@@ -262,7 +262,7 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
 
   should 'the final grade be the optional when the optional grade is selected' do
     @organization.add_member(@person)
-    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, true, true)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, nil, nil, true, true)
     folder = work_assignment.find_or_create_author_folder(@person)
     file = create_uploaded_file("file.txt", @organization, folder, @person, @person, true)
     folder.reload

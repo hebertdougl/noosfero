@@ -1,14 +1,68 @@
 .icon-newwork-assignment { background-image: url(../../designs/icons/tango/Tango/16x16/categories/applications-office.png) }
 .icon-work-assignment { background-image: url(../../designs/icons/tango/Tango/16x16/categories/applications-office.png) }
 
-#work-assignment-time-ago{
+.work-assignment-time-information{
   padding: 10px;
   margin-bottom: 15px;
-  background-color: #E6E6E6;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   display: block;
-  text-align: center;
+  text-align: left;
+  margin: 2px 0px 0px 0px;
+}
+.work-assignment-time-information .button-bar{
+  float: right;
+  margin: -4px 0px 0px 0px;
+}
+
+#work-assignment-time-ago{
+  color: #31708f;
+  background-color: #D9EDF7;
+  border-color: #BCE8F1;
+}
+
+#work-assignment-alert{
+  color: #8A6D3B;
+  background-color: #FCF8E3;
+  border-color: #faebcc;
+}
+
+#work-assignment-expired{
+  color: #A94442;
+  background-color: #f2DEDE;
+  border-color: #EBCCD1;
+}
+
+.work-assignment-button-list{
+  margin-left: 200px;
+}
+
+.work-assignment-list{
+  position: relative;
+}
+
+.work-assignment-list-name{
+  float: left;
+}
+
+.work-assignment-list-content{
+  border: none;
+  border-bottom: 1px dotted;
+  display: block;
+  height: 40px;
+  margin-top: 5px;
+  padding:5px 0 5px 5px;
+}
+
+.work-assignment-list-actions{
+  float: right;
+  text-align: right;
+  width: 200px;
+}
+
+.work-assignment-list-date{
+  margin-top: 5px;
+  float: right;
 }
 
 #work-assignment-date{
