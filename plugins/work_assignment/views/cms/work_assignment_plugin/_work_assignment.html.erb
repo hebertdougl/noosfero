@@ -1,4 +1,6 @@
-<%= render :partial => 'folder', :locals => {:f => f} %>
+<%= required f.text_field('name', :size => '64', :maxlength => 150) %>
+
+<%= labelled_form_field(_('Description:'), text_area(:article, :body, :rows => 3, :cols => 64)) %>
 
 <%= labelled_form_field(_('Default email message:'), text_area(:article, :default_email, :rows => 3, :cols => 64)) %>
 
