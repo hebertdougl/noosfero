@@ -86,6 +86,16 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
     !(begining..ending).cover?(Time.now)
   end
 
+  def status
+    if self.ignore_time
+      status = "allowed"
+    elsif self.expired?
+      status = "expired"
+    else
+      status = "open"
+    end
+  end
+
   alias_method_chain :cache_key, :person
 
   def final_grade_options

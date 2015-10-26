@@ -49,6 +49,16 @@ class WorkAssignmentPluginMyprofileController < MyProfileController
     @work_assignment_list = @work_assignment_group.work_assignment_list
   end
 
+  def work_assignment_group_list
+    communities = profile.communities
+    @article = []
+    communities.each do |c|
+      c.articles.each do |a|
+        @article << a if a.kind_of?(WorkAssignmentPlugin::WorkAssignmentGroup)
+      end
+    end
+  end
+
   protected
 
   def protect_if

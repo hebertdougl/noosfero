@@ -151,16 +151,11 @@ module WorkAssignmentPlugin::Helper
     )
   end
 
-  #FIX-ME
   def display_date(work_assignment)
     ending = work_assignment.ending
-    if work_assignment.ignore_time
-      content_tag('div', final_date(ending) + time_ago(work_assignment), :class => 'work-assignment-time-information', :id => 'work-assignment-alert')
-    elsif work_assignment.expired?
-      content_tag('div', final_date(ending) + time_ago(work_assignment), :class => 'work-assignment-time-information', :id => 'work-assignment-expired')
-    else
-      content_tag('div', final_date(ending) + time_ago(work_assignment), :class => 'work-assignment-time-information', :id => 'work-assignment-time-ago')
-    end
+    content_tag('div', final_date(ending) + time_ago(work_assignment),
+     :class => 'work-assignment-time-information',
+     :id => 'work-assignment-' + work_assignment.status)
   end
 
   private

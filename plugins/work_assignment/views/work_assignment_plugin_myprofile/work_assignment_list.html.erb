@@ -4,33 +4,7 @@
   </div>
 <% end %>
 
-<h1> <%= _('Work assignment list ') + @work_assignment_group.name %> </h1>
-<div class="work-assignment-list">
-  <% @work_assignment_list.each do |work| %>
-  <div class="work-assignment-list-content">
-    <div class="work-assignment-list-name">
-      <%= work.name %>
-    </div>
-
-    <div class="work-assignment-list-actions">
-      <%= button_without_text :eyes, _('View'), work.url %>
-      <% content = content_tag('span', label_for_edit_article(work)) %>
-          <% url = profile.admin_url.merge({ :controller => 'cms', :action => 'edit', :id => work.id, :success_back_to => url_for(work.parent.view_url) }) %>
-      <%= expirable_button work, :edit, _('Edit'), url if !remove_content_button(:edit, work) %>
-
-      <% if @work_assignment_group.profile.members.include?(current_user.person) && (!work.expired? || work.ignore_time) %>
-        <%= button_without_text 'upload-file', c_('Upload files'), profile.admin_url.merge(:controller => 'cms', :action => 'upload_files', :parent_id => work) %>
-      <% end %>
-    </div>
-    <div class="work-assignment-list-date">
-      <strong><%= _('Begining: ') %></strong>
-      <%= show_time(work.begining) %>
-      <strong><%= _('Ending: ') %></strong>
-      <%= show_time(work.ending) %>
-    </div>
-  </div>
-  <% end %>
-</div>
+<%= render partial: 'work_assignment_list', locals: {work_group: @work_assignment_group} %>
 
 <% if @work_assignment_group.allow_create?(user) %>
   <div class="work-assignment">

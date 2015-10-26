@@ -7,7 +7,7 @@
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   display: block;
-  text-align: left;
+  text-align: center;
   margin: 2px 0px 0px 0px;
 }
 .work-assignment-time-information .button-bar{
@@ -15,13 +15,13 @@
   margin: -4px 0px 0px 0px;
 }
 
-#work-assignment-time-ago{
+#work-assignment-open{
   color: #31708f;
   background-color: #D9EDF7;
   border-color: #BCE8F1;
 }
 
-#work-assignment-alert{
+#work-assignment-allowed{
   color: #8A6D3B;
   background-color: #FCF8E3;
   border-color: #faebcc;
@@ -43,6 +43,7 @@
 
 .work-assignment-list-name{
   float: left;
+  font-weight: bold;
 }
 
 .work-assignment-list-content{

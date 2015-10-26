@@ -59,6 +59,14 @@ class WorkAssignmentPlugin < Noosfero::Plugin
       :block => block }
   end
 
+  def control_panel_buttons
+    { :title => _('My courses'),
+      :icon => '',
+      :url => {:controller => 'work_assignment_plugin_myprofile',
+        :action => 'work_assignment_group_list'}
+    } if profile.person?
+  end
+
   def cms_controller_filters
     block = proc do
       if request.post? && params[:uploaded_files]
