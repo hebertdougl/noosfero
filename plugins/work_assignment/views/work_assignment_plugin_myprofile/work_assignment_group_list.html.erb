@@ -1,7 +1,8 @@
+<% title_rendered = "" %>
 <% @article.each do |work_group| %>
-
-  <h1> <%= work_group.profile.name %> </h1>
-
+  <% if title_rendered != work_group.profile.name %>
+    <h1><%= work_group.profile.name %></h1>
+    <% title_rendered = work_group.profile.name %>
+  <% end %>
   <%= render partial: 'work_assignment_list', locals: {work_group: work_group} %>
-
 <% end %>

@@ -5,6 +5,10 @@
       <div class="work-assignment-list-name">
         <%= work.name %>
       </div>
+      <div class="work-assignment-list-grade">
+        <% folder = work.children.find_by_slug(user.name.to_slug) %>
+          <%= _('/ Grade: ') + work.children.find_by_slug(user.name.to_slug).final_grade.to_s if folder %>
+      </div>
       <div class="work-assignment-list-actions">
         <%= button_without_text :eyes, _('View'), work.url %>
         <% if work.allow_edit?(user) && !remove_content_button(:edit, work) %>
@@ -17,10 +21,10 @@
         <% end %>
       </div>
       <div class="work-assignment-list-date">
-        <strong><%= _('Begining: ') %></strong>
-        <%= show_time(work.begining) %>
-        <strong><%= _('Ending: ') %></strong>
-        <%= show_time(work.ending) %>
+        <strong><%= _('From ') %></strong>
+        <%= show_time(work.begining, true) %>
+        <strong><%= _('to ') %></strong>
+        <%= show_time(work.ending, true) %>
       </div>
     </div>
   <% end %>

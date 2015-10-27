@@ -66,6 +66,11 @@
   float: right;
 }
 
+.work-assignment-list-grade{
+  margin: 0px 0px 0px 0px;
+  float: left;
+}
+
 #work-assignment-date{
   font-weight: 700;
 }
