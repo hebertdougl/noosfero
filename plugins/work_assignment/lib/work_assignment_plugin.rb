@@ -109,4 +109,8 @@ class WorkAssignmentPlugin < Noosfero::Plugin
       end
     end
   end
+
+  def self.extra_blocks
+    { WorkAssignmentPlugin::WorkAssignmentListBlock => {}}
+  end
 end

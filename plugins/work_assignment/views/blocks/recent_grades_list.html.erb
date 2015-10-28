@@ -1,0 +1,14 @@
+<% extend WorkAssignmentPlugin::Helper %>
+
+<% unless recent_grades.empty? %>
+  <%= block_title(block.title) %>
+  <div class="work_assignment_recent_grades">
+    <% recent_grades.each do |upload_file| %>
+      <% work_assignment = upload_file.parent.parent %>
+      <span><%= link_to (work_assignment.name + upload_file.setting[:grade_version].to_s), work_assignment.url %></span>
+      <% %>
+      <br>
+    <% end %>
+  </div>
+<% end %>
+<br style="clear: both;"/>
