@@ -46,7 +46,6 @@ class WorkAssignmentPluginMyprofileController < MyProfileController
 
   def work_assignment_list
     @work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.find params[:work_assignment_group]
-    @work_assignment_list = @work_assignment_group.work_assignment_list
   end
 
   def work_assignment_group_list

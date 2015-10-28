@@ -277,6 +277,16 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     assert_equal folder.final_grade, file.setting[:grade_version]
   end
 
+  should 'find all work_assignment groups' do
+    @organization.add_member(@person)
+
+    work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.create!(:name => 'Work Assignment Group', :profile => @organization, :start_date => Time.now, :end_date => Time.now + 1.day)
+
+    get :work_assignment_list, :profile => @organization.identifier, :work_assignment_group => work_assignment_group.id
+
+    assert true
+  end
+
 # end tests for work_assignment grade functionality
 
   private

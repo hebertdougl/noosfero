@@ -8,6 +8,8 @@ class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
   attr_accessible :start_date
   attr_accessible :end_date
 
+  validates :start_date, presence: true
+  validates :end_date, presence: true
 
   def self.icon_name(article = nil)
     'work-assignment-group'
