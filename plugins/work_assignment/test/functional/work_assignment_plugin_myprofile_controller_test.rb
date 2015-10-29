@@ -259,7 +259,6 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     assert_equal folder.final_grade, other_file.setting[:grade_version]
   end
 
-
   should 'the final grade be the optional when the optional grade is selected' do
     @organization.add_member(@person)
     work_assignment = create_work_assignment('Work Assignment', @organization, nil, true, nil, nil, true, true)
@@ -277,17 +276,36 @@ class WorkAssignmentPluginMyprofileControllerTest < ActionController::TestCase
     assert_equal folder.final_grade, file.setting[:grade_version]
   end
 
-  should 'find all work_assignment groups' do
+  should 'find all work_assignment that belongs to a group' do
     @organization.add_member(@person)
 
-    work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.create!(:name => 'Work Assignment Group', :profile => @organization, :start_date => Time.now, :end_date => Time.now + 1.day)
+    work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.create!(:name => 'Work Assignment Group', :profile => @organization, :start_date => Time.now, :end_date => Time.now + 2.day)
+    work_assignment = create_work_assignment('Work Assignment', @organization, nil, true)
+    work_assignment.parent = work_assignment_group
+    work_assignment.save
 
     get :work_assignment_list, :profile => @organization.identifier, :work_assignment_group => work_assignment_group.id
 
-    assert true
+    assert_template :work_assignment_list
+    assert_match /#{work_assignment.name}/, @response.body
   end
 
-# end tests for work_assignment grade functionality
+  should 'find all work_assignment groups' do
+    profile = fast_create(Community)
+    profile.add_member(@person)
+
+    work_assignment_group = WorkAssignmentPlugin::WorkAssignmentGroup.create!(:name => 'Group', :profile => profile, :start_date => Time.now, :end_date => Time.now + 2.day)
+    work_assignment_group_test = WorkAssignmentPlugin::WorkAssignmentGroup.create!(:name => 'Group Test', :profile => profile, :start_date => Time.now, :end_date => Time.now + 2.day)
+    work_assignment = create_work_assignment('Work Assignment', profile, nil, true)
+    work_assignment.parent = work_assignment_group
+    work_assignment.save
+
+    get :work_assignment_group_list, :profile => @person.identifier
+
+    assert_match /#{work_assignment_group.profile.name}/, @response.body
+    assert_match /#{work_assignment_group_test.profile.name}/, @response.body
+    assert_match /#{work_assignment.name}/, @response.body
+  end
 
   private
 
