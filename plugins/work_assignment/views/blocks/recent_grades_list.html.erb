@@ -1,14 +1,18 @@
 <% extend WorkAssignmentPlugin::Helper %>
 
 <% unless recent_grades.empty? %>
-  <%= block_title(block.title) %>
-  <div class="work_assignment_recent_grades">
-    <% recent_grades.each do |upload_file| %>
-      <% work_assignment = upload_file.parent.parent %>
-      <span><%= link_to (work_assignment.name + upload_file.setting[:grade_version].to_s), work_assignment.url %></span>
-      <% %>
-      <br>
-    <% end %>
-  </div>
+  <%= block_title(_("Recent grades")) %>
+    <div id="list-recent-grades">
+      <ul>
+        <% recent_grades.each do |upload_file| %>
+        <% grade = upload_file.setting[:grade_version] %>
+        <% work_assignment = upload_file.parent.parent %>
+            <li><%= (link_to _("#{work_assignment.name}") +"  "+ _("(#{grade})"), work_assignment.url) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="block-footer-content">
+      <%= link_to _("View All"), {:controller => 'work_assignment_plugin_myprofile', :action => 'work_assignment_group_list'}, :class => "view-all-work-assignment-list"%>
+    </div>
 <% end %>
 <br style="clear: both;"/>

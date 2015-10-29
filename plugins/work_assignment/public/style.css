@@ -44,6 +44,8 @@
 .work-assignment-list-name{
   float: left;
   font-weight: bold;
+  width: 30%;
+  height: 100%;
 }
 
 .work-assignment-list-content{
@@ -71,10 +73,59 @@
   float: left;
 }
 
+.work-assignment-list-actions a.button {
+  background-color: transparent !important;
+}
 #work-assignment-date{
   font-weight: 700;
 }
 
 #work-assignment-final-date{
 	padding: 3px;
+}
+
+#list-recent-grades ul{
+  padding: 0px;
+  margin: 0px;
+}
+
+#list-recent-grades ul li{
+  list-style: none;
+  background-color: #FFF;
+  padding: 0px;
+  margin: 5px 0px;
+  background-color: #EEE;
+  background-position: 4px 50%;
+  border-radius: 4px;
+}
+
+#list-recent-grades ul li a{
+  font-size: 14px;
+  line-height: 24px;
+  color: #000;
+  text-decoration:none;
+  background-color: #EEE;
+  background-position: 4px 50%;
+  border-radius: 4px;
+}
+
+#list-recent-grades ul li a:hover{
+  background-color: #555753;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.view-all-work-assignment-list{
+    background: url(/designs/themes/base/imgs/arrow-right-p.png) 100% 50% no-repeat;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    font-size: 11px;
+    color: #000 !important;
+    text-decoration: none;
+    padding-right: 15px;
+}
+
+.view-all-work-assignment-list:hover{
+    text-decoration: none;
 }
