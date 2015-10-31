@@ -72,7 +72,6 @@ class WorkAssignmentPlugin::WorkAssignment < Folder
   def validate_date
     parent = self.parent
     if parent
-      range = self.begining..self.ending
       range_group = parent.start_date..parent.end_date
       errors.add(:begining, _(' or ending is outside the group limit.')) unless range_group.cover?(self.begining) && range_group.cover?(self.ending)
     end
