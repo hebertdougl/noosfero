@@ -16,11 +16,11 @@ class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
   end
 
   def self.short_description
-    _('Work Assignment Group')
+    _('Group work assignment')
   end
 
   def self.description
-    _('Criacao de cursos')
+    _('Defines a group of activities to be done by members and brings together the sent works.')
   end
 
   def work_assignment_list

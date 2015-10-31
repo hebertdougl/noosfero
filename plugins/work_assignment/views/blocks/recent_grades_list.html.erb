@@ -7,7 +7,7 @@
         <% recent_grades.each do |upload_file| %>
         <% grade = upload_file.setting[:grade_version] %>
         <% work_assignment = upload_file.parent.parent %>
-            <li><%= (link_to _("#{work_assignment.name}") +"  "+ _("(#{grade})"), work_assignment.url) %></li>
+            <li><%= link_to (work_assignment.name+" ("+grade.to_s+")"), work_assignment.url %></li>
         <% end %>
       </ul>
     </div>
