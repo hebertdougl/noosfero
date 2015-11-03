@@ -1,0 +1,42 @@
+<%= block_title(block.title) %>
+<%= puts "ENTREI"*80 %>
+<div class="track_list" id="track_list_<%= block.id %>">
+  <% block.all_groups.each do |group|%>
+    <div class="item">
+      <div class="track_content">
+        <div class="lead">
+          <h3><%= link_to group.name, group.url %></h3>
+          <div class="content">
+            <%= group.short_name %>
+            <%= show_period(group.start_date, group.end_date).capitalize %>
+          </div>
+        </div>
+        <div class="steps">
+          <h3><%= _("Work Assignment List") %></h3>
+          <% group.work_assignment_list.last(block.limit).each do |work| %>
+            <div class="work-assignment-list-content" id="work-assignment-<%= work.status %>">
+              <div class="work-assignment-list-name">
+                <%= work.name %>
+              </div>
+              <div class="work-assignment-list-actions">
+                <%= button_without_text :eyes, _('View'), work.url %>
+              </div>
+              <div class="work-assignment-list-date">
+                <strong><%= _('From ') %></strong>
+                <%= show_time(work.begining, true) %>
+                <strong><%= _('to ') %></strong>
+                <%= show_time(work.ending, true) %>
+              </div>
+            </div>
+          <% end %>
+          <div class= "work-assignment-time-information" id="work-assignment-open">
+            <% button_bar do %>
+              <%= button(:eyes, _('View more'), :controller => 'work_assignment_plugin_myprofile', :action => 'work_assignment_list', :type => 'WorkAssignmentPlugin::WorkAssignment', :work_assignment_group => group)%>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<br style="clear: both;"/>
