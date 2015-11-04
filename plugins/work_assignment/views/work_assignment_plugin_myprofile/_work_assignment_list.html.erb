@@ -1,4 +1,6 @@
-<h2> <%= _('WorkAssignmentList ') + work_group.name %> </h2>
+<h2 class="work-assignment-title">
+  <%= _('WorkAssignmentList ') + work_group.name %>
+</h2>
 <div class="work-assignment-list">
   <% work_group.work_assignment_list.each do |work| %>
     <div class="work-assignment-list-content" id="work-assignment-<%= work.status %>">

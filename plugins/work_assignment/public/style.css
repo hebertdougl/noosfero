@@ -41,6 +41,41 @@
   position: relative;
 }
 
+.work-assignment-group-name{
+  float: left;
+  width: 37%;
+}
+
+.work-assignment-list-block{
+  /* float: right; */
+  /* width: 63%; */
+}
+
+.work-assignment-header-list-block{
+  border-bottom: 2px solid #AAA;
+}
+
+.work-assignment-group-block-content{
+  border-style: solid;
+  border-color: #babdb6;
+	border-width: 1px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 2px #888888;
+	padding: 8px;
+	margin-bottom: 5px;
+}
+
+.work-assignment-header-list-block h2 a{
+	color #A12;
+}
+
+.work-assignment-title {
+  color: #888a85;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .work-assignment-list-name{
   float: left;
   font-weight: bold;
@@ -76,6 +111,7 @@
 .work-assignment-list-actions a.button {
   background-color: transparent !important;
 }
+
 #work-assignment-date{
   font-weight: 700;
 }
@@ -128,4 +164,13 @@
 
 .view-all-work-assignment-list:hover{
     text-decoration: none;
+}
+
+.block-footer-content{
+  text-align: center;
+  margin-top: 5px;
+}
+
+.work-assignment-group-date{
+  text-align: right;
 }
