@@ -14,9 +14,4 @@ class WorkAssignmentPlugin::WorkAssignmentListBlock < Block
       render :file => 'blocks/recent_grades_list', :locals => {:block => block}
     end
   end
-
-  def self.expire_on
-    { :profile => [:article, :category], :environment => [:article, :category] }
-  end
-
 end

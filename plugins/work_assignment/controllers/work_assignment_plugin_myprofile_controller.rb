@@ -49,7 +49,7 @@ class WorkAssignmentPluginMyprofileController < MyProfileController
   end
 
   def work_assignment_group_list
-    communities = profile.communities
+    communities = current_user.person.communities
     @article = []
     communities.each do |c|
       c.articles.each do |a|

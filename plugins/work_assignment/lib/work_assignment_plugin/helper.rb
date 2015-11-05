@@ -48,6 +48,42 @@ module WorkAssignmentPlugin::Helper
     )
   end
 
+  # FIXME Copied from custom-froms. Consider passing it to core...
+  def time_format(time)
+    minutes = (time.min == 0) ? '' : ':%M'
+    hour = (time.hour == 0 && minutes.blank?) ? '' : ' %H'
+    h = hour.blank? ? '' : 'h'
+    time.strftime("%Y-%m-%d#{hour+minutes+h}")
+  end
+
+  def display_grade_column(work_assignment)
+    unless work_assignment.work_assignment_activate_evaluation
+      'display: none'
+    end
+  end
+
+  def display_date(work_assignment)
+    ending = work_assignment.ending
+    content_tag('div', final_date(ending) + time_ago(work_assignment),
+     :class => 'work-assignment-time-information',
+     :id => 'work-assignment-' + work_assignment.status)
+  end
+
+  def recent_grades
+    work = WorkAssignmentPlugin::WorkAssignment.all
+    uploaded_file_array = []
+    work.each do |w|
+      folder = w.children.find_by_slug(user.name.to_slug)
+      if folder && folder.author_id == user.id && w.publish_grades
+        uploaded_file_array << folder.children
+      end
+    end
+    uploaded_file_array = uploaded_file_array.flatten.select { |upload| upload.setting[:grade_version] == upload.parent.final_grade }
+    uploaded_file_array.sort_by{|obj| obj.valuation_date}.reverse
+  end
+
+  private
+
   def link_to_submission(submission, user)
     if WorkAssignmentPlugin.can_download_submission?(user, submission)
       link_to(submission.name, submission.url)
@@ -61,20 +97,6 @@ module WorkAssignmentPlugin::Helper
       link_to(author_folder.name, author_folder.children.last.url)
     else
       author_folder.name
-    end
-  end
-
-  # FIXME Copied from custom-froms. Consider passing it to core...
-  def time_format(time)
-    minutes = (time.min == 0) ? '' : ':%M'
-    hour = (time.hour == 0 && minutes.blank?) ? '' : ' %H'
-    h = hour.blank? ? '' : 'h'
-    time.strftime("%Y-%m-%d#{hour+minutes+h}")
-  end
-
-  def display_grade_column(work_assignment)
-    unless work_assignment.work_assignment_activate_evaluation
-      'display: none'
     end
   end
 
@@ -149,30 +171,5 @@ module WorkAssignmentPlugin::Helper
       ),
       id: 'work-assignment-final-date'
     )
-  end
-
-  def display_date(work_assignment)
-    ending = work_assignment.ending
-    content_tag('div', final_date(ending) + time_ago(work_assignment),
-     :class => 'work-assignment-time-information',
-     :id => 'work-assignment-' + work_assignment.status)
-  end
-
-  def recent_grades
-    work = WorkAssignmentPlugin::WorkAssignment.all
-    uploaded_file_array = []
-    work.each do |w|
-      folder = w.children.find_by_slug(user.name.to_slug)
-      if folder && folder.author_id == user.id && w.publish_grades
-        uploaded_file_array << folder.children
-      end
-    end
-    uploaded_file_array = uploaded_file_array.flatten.select { |upload| upload.setting[:grade_version] == upload.parent.final_grade }
-    uploaded_file_array.sort_by{|obj| obj.valuation_date}.reverse
-  end
-
-  private
-
-  def select_work_assignment_id(work_assignment)
   end
 end
