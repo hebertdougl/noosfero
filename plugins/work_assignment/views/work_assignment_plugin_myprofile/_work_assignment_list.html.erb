@@ -1,5 +1,5 @@
 <h2 class="work-assignment-title">
-  <%= _('WorkAssignmentList ') + work_group.name %>
+  <%= _('Work Assignment List ') + work_group.name %>
 </h2>
 <div class="work-assignment-list">
   <% work_group.work_assignment_list.each do |work| %>
@@ -9,7 +9,7 @@
       </div>
       <div class="work-assignment-list-grade">
         <% folder = work.children.find_by_slug(user.name.to_slug) %>
-          <%= _('Grade: ') + work.children.find_by_slug(user.name.to_slug).final_grade.to_s if folder %>
+          <%= _('Grade: ') + folder.final_grade.to_s if folder %>
       </div>
       <div class="work-assignment-list-actions">
         <%= button_without_text :eyes, _('View'), work.url %>
