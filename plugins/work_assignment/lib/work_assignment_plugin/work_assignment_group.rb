@@ -35,6 +35,14 @@ class WorkAssignmentPlugin::WorkAssignmentGroup < Folder
     profile.members.include?(user)
   end
 
+  def expired?
+    !(start_date..end_date).cover?(Time.now)
+  end
+
+  def status
+    expired? ? "expired" : "open"
+  end
+
   def to_html(options = {})
     work_assignment_group = self
     proc do

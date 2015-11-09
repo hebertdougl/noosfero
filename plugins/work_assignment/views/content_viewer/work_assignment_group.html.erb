@@ -1,7 +1,7 @@
 <% extend WorkAssignmentPlugin::Helper %>
 
 <div id="work-assignment-group">
-  <div class= "work-assignment-time-information" id="work-assignment-open">
+  <div class= "work-assignment-time-information" id="work-assignment-<%= work_assignment_group.status %>">
     <% button_bar do %>
       <%= button(:eyes, _('View work assignment List'), :controller => 'work_assignment_plugin_myprofile', :action => 'work_assignment_list', :type => 'WorkAssignmentPlugin::WorkAssignment', :work_assignment_group => work_assignment_group)%>
     <% end %>
