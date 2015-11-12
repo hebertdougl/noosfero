@@ -10,6 +10,7 @@ class WorkAssignmentPlugin::GroupListBlock < Block
     _('This block displays a list of most relevant work assignment groups.')
   end
 
+  #FIXME ORDER BY END_DATE
   def all_groups
     owner.articles.where(:type => 'WorkAssignmentPlugin::WorkAssignmentGroup').order('end_date DESC')
   end

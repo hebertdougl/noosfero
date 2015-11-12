@@ -26,7 +26,7 @@ class GroupListBlockTest < ActiveSupport::TestCase
     work_assignment_before = create_work_assignment_group('Group 1', @profile, Time.now, Time.now + 1.day)
     work_assignment_after = create_work_assignment_group('Group 2', @profile, Time.now, Time.now + 2.day)
 
-    assert_equal @block.all_groups, [work_assignment_before, work_assignment_after]
+    assert_equal @block.all_groups, [work_assignment_after, work_assignment_before]
   end
 
 end
